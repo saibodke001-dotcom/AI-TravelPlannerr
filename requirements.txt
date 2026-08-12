@@ -1,0 +1,8 @@
+Flask==3.0.0
+google-genai
+reportlab==4.2.2
+python-dotenv==1.0.1
+werkzeug==3.0.3
+markdown==3.6
+gunicorn==21.2.0
+setuptools
