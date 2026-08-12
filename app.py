@@ -32,14 +32,11 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "super_secret_default_key")
 
 # Gemini Configuration
 api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
-if api_key:
-    os.environ["GOOGLE_API_KEY"] = api_key
-    genai.configure(api_key=api_key, transport='rest')
 
-if os.environ.get("VERCEL"):
-    DATABASE = '/tmp/database.db'
-else:
-    DATABASE = 'database.db'
+if not api_key:
+    raise RuntimeError("GEMINI_API_KEY is not configured")
+
+DATABASE = 'database.db'
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -283,38 +280,7 @@ def download_pdf(trip_id):
     response.headers['Content-Disposition'] = f'attachment; filename="itinerary_{trip["destination"].replace(" ", "_")}.pdf"'
     return response
 
-@app.route('/chat', methods=['GET', 'POST'])
-def chat():
-    chat_history = session.get('chat_history', [])
-    
-    if request.method == 'POST':
-        user_message = request.form['message']
-        chat_history.append({'role': 'user', 'content': user_message})
-        
-        try:
-            model = genai.GenerativeModel('gemini-3.5-flash')
-            # build a simple text history for context
-            context = "You are a helpful travel assistant.\n"
-            for msg in chat_history[-5:]: # Keep last 5 for context
-                context += f"{msg['role']}: {msg['content']}\n"
-            context += "assistant: "
-            
-            response = model.generate_content(context)
-            ai_message = response.text
-            chat_history.append({'role': 'assistant', 'content': ai_message})
-        except Exception as e:
-            chat_history.append({'role': 'assistant', 'content': f"Sorry, I encountered an error: {str(e)}"})
-            
-        session['chat_history'] = chat_history[-20:] # Keep session size manageable
-        session.modified = True
-        return redirect(url_for('chat'))
-        
-    return render_template('chat.html', chat_history=chat_history)
 
-@app.route('/clear-chat')
-def clear_chat():
-    session.pop('chat_history', None)
-    return redirect(url_for('chat'))
 
 @app.route('/explorer')
 def explorer():
