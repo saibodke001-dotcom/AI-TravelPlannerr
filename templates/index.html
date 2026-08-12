@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content glass-panel fade-in-up">
+        <h1>Your Dream Trip, Planned by AI</h1>
+        <p>Discover personalized itineraries, smart budget estimates, and real-time travel advice in seconds.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('planner') }}" class="btn-primary large-btn">Start Planning</a>
+            <a href="{{ url_for('explorer') }}" class="btn-outline large-btn">Explore Destinations</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2 class="section-title text-center">Why Use AI Travel?</h2>
+    <div class="feature-grid">
+        <div class="feature-card glass-panel hover-lift">
+            <div class="feature-icon">🤖</div>
+            <h3>Smart Itineraries</h3>
+            <p>Our Gemini-powered AI generates detailed, day-by-day plans tailored to your exact preferences.</p>
+        </div>
+        <div class="feature-card glass-panel hover-lift">
+            <div class="feature-icon">💰</div>
+            <h3>Budget Calculator</h3>
+            <p>Estimate your travel costs and stay within your financial goals with smart budget tracking.</p>
+        </div>
+        <div class="feature-card glass-panel hover-lift">
+            <div class="feature-icon">💬</div>
+            <h3>Chat Assistant</h3>
+            <p>Have a question? Ask our AI Travel Assistant for real-time recommendations and safety tips.</p>
+        </div>
+        <div class="feature-card glass-panel hover-lift">
+            <div class="feature-icon">📄</div>
+            <h3>PDF Exports</h3>
+            <p>Download your complete itinerary as a beautiful PDF to take with you offline.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="planner-container">
+    <div class="planner-card glass-panel fade-in-up">
+        <h2 class="text-center">AI Trip Planner</h2>
+        <p class="text-center text-muted">Fill out the details below and let AI build your perfect itinerary.</p>
+        
+        <form method="POST" action="{{ url_for('planner') }}" class="planner-form" onsubmit="document.getElementById('loading').style.display='flex';">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="source">Source Location</label>
+                    <input type="text" id="source" name="source" placeholder="e.g. New York" required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="destination">Destination</label>
+                    <input type="text" id="destination" name="destination" placeholder="e.g. Tokyo" required class="form-control">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="start_date">Start Date</label>
+                    <input type="date" id="start_date" name="start_date" required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End Date</label>
+                    <input type="date" id="end_date" name="end_date" required class="form-control">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="budget">Budget</label>
+                    <select id="budget" name="budget" class="form-control">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="Luxury">Luxury</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="travelers">Number of Travelers</label>
+                    <input type="number" id="travelers" name="travelers" min="1" value="1" required class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="travel_type">Travel Type</label>
+                <select id="travel_type" name="travel_type" class="form-control">
+                    <option value="Solo">Solo</option>
+                    <option value="Family">Family</option>
+                    <option value="Couple">Couple</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Business">Business</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Interests</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="interests" value="Nature"> Nature</label>
+                    <label class="checkbox-label"><input type="checkbox" name="interests" value="Beaches"> Beaches</label>
+                    <label class="checkbox-label"><input type="checkbox" name="interests" value="Mountains"> Mountains</label>
+                    <label class="checkbox-label"><input type="checkbox" name="interests" value="Food"> Food</label>
+                    <label class="checkbox-label"><input type="checkbox" name="interests" value="Shopping"> Shopping</label>
+                    <label class="checkbox-label"><input type="checkbox" name="interests" value="Wildlife"> Wildlife</label>
+                    <label class="checkbox-label"><input type="checkbox" name="interests" value="Historical Places"> Historical Places</label>
+                    <label class="checkbox-label"><input type="checkbox" name="interests" value="Nightlife"> Nightlife</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary full-width">Generate Itinerary ✨</button>
+        </form>
+    </div>
+</div>
+
+<!-- Loading Overlay using CSS/Minimal JS -->
+<div id="loading" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+    <p>AI is crafting your perfect trip...</p>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <input type="checkbox" id="theme-toggle" class="theme-checkbox" hidden>
+    <div class="app-container">
+        <!-- Navbar -->
+        <header class="glass-nav">
+            <div class="logo">
+                <a href="{{ url_for('index') }}">🌍 AI Travel</a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('explorer') }}">Explorer</a></li>
+                    <li><a href="{{ url_for('planner') }}">Planner</a></li>
+                    <li><a href="{{ url_for('chat') }}">AI Assistant</a></li>
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+                <label for="theme-toggle" class="theme-btn">🌓</label>
+            </nav>
+        </header>
+
+        <!-- Flash Messages -->
+        <div class="flash-container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Main Content -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="glass-footer">
+            <p>&copy; 2026 AI Travel Planner. Built for AIML Internship.</p>
+            <div class="footer-links">
+                <a href="{{ url_for('budget') }}">Budget Calc</a>
+                <a href="{{ url_for('weather') }}">Weather</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="itinerary-container fade-in-up">
+    <div class="itinerary-header glass-panel">
+        <div class="header-content">
+            <h2>Your Trip to {{ trip['destination'] }}</h2>
+            <p>From {{ trip['source'] }} | {{ trip['start_date'] }} to {{ trip['end_date'] }}</p>
+            <div class="badges">
+                <span class="badge">{{ trip['travel_type'] }}</span>
+                <span class="badge">{{ trip['budget'] }} Budget</span>
+                <span class="badge">{{ trip['travelers'] }} Travelers</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <a href="{{ url_for('download_pdf', trip_id=trip['id']) }}" class="btn-primary">Download PDF 📄</a>
+            <a href="{{ url_for('dashboard') }}" class="btn-outline">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <div class="itinerary-content glass-panel markdown-body">
+        {{ itinerary_html | safe }}
+    </div>
+</div>
+{% endblock %}

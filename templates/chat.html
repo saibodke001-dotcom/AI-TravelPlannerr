@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="chat-container fade-in-up">
+    <div class="chat-box glass-panel">
+        <div class="chat-header">
+            <h2>AI Travel Assistant</h2>
+            <a href="{{ url_for('clear_chat') }}" class="btn-outline small">Clear Chat</a>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            {% if not chat_history %}
+                <div class="message ai-message">
+                    <p>Hello! I am your AI Travel Assistant. How can I help you plan your next adventure?</p>
+                </div>
+            {% else %}
+                {% for msg in chat_history %}
+                    <div class="message {{ 'user-message' if msg.role == 'user' else 'ai-message' }}">
+                        <p>{{ msg.content }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <form method="POST" action="{{ url_for('chat') }}" class="chat-form" onsubmit="document.getElementById('chat-loading').style.display='block';">
+            <input type="text" name="message" placeholder="Ask about destinations, visa rules, tips..." required class="form-control" autocomplete="off">
+            <button type="submit" class="btn-primary">Send</button>
+        </form>
+        <div id="chat-loading" style="display: none; padding: 10px; text-align: center; color: var(--text-color);">Thinking...</div>
+    </div>
+</div>
+<script>
+    // Minimal JS to auto-scroll chat to bottom
+    var chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="budget-container fade-in-up">
+    <div class="budget-card glass-panel">
+        <h2 class="text-center">Travel Budget Calculator</h2>
+        <p class="text-center">Estimate your basic travel expenses quickly.</p>
+        
+        <form method="POST" action="{{ url_for('budget') }}" class="budget-form">
+            <div class="form-group">
+                <label for="days">Number of Days</label>
+                <input type="number" name="days" id="days" min="1" required class="form-control" value="{{ request.form.get('days', '') }}">
+            </div>
+            <div class="form-group">
+                <label for="travelers">Number of Travelers</label>
+                <input type="number" name="travelers" id="travelers" min="1" required class="form-control" value="{{ request.form.get('travelers', '') }}">
+            </div>
+            <div class="form-group">
+                <label for="style">Travel Style</label>
+                <select name="style" id="style" class="form-control">
+                    <option value="low" {% if request.form.get('style') == 'low' %}selected{% endif %}>Budget / Backpacker</option>
+                    <option value="medium" {% if request.form.get('style') == 'medium' or not request.form.get('style') %}selected{% endif %}>Standard / Comfort</option>
+                    <option value="luxury" {% if request.form.get('style') == 'luxury' %}selected{% endif %}>Luxury</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary full-width">Calculate</button>
+        </form>
+
+        {% if estimation %}
+        <div class="budget-result mt-4 p-3 glass-panel">
+            <h3 class="text-center">Estimated Cost</h3>
+            <div class="result-details">
+                <p><strong>Travelers:</strong> {{ estimation.travelers }}</p>
+                <p><strong>Days:</strong> {{ estimation.days }}</p>
+                <p><strong>Style:</strong> {{ estimation.style }}</p>
+                <p><strong>Est. Daily per Person:</strong> ${{ estimation.daily_per_person }}</p>
+                <h2 class="text-center total-cost">Total: ${{ estimation.total }}</h2>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

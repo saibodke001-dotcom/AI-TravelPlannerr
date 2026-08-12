@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header text-center fade-in-up">
+    <h2>Welcome back, {{ session['username'] }}!</h2>
+    <p>Here are your saved trips.</p>
+    <a href="{{ url_for('planner') }}" class="btn-primary">Plan a New Trip</a>
+</div>
+
+<div class="dashboard-grid">
+    {% if trips %}
+        {% for trip in trips %}
+        <div class="trip-card glass-panel hover-lift fade-in-up" style="animation-delay: {{ loop.index * 0.1 }}s">
+            <div class="trip-card-header">
+                <h3>{{ trip['destination'] }}</h3>
+                <span class="badge">{{ trip['travel_type'] }}</span>
+            </div>
+            <div class="trip-card-body">
+                <p><strong>From:</strong> {{ trip['source'] }}</p>
+                <p><strong>Dates:</strong> {{ trip['start_date'] }} to {{ trip['end_date'] }}</p>
+                <p><strong>Travelers:</strong> {{ trip['travelers'] }}</p>
+                <p><strong>Budget:</strong> {{ trip['budget'] }}</p>
+            </div>
+            <div class="trip-card-footer">
+                <a href="{{ url_for('trip_details', trip_id=trip['id']) }}" class="btn-outline">View Itinerary</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state glass-panel text-center">
+            <p>You haven't planned any trips yet.</p>
+            <a href="{{ url_for('planner') }}" class="btn-primary">Start Your First Journey</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

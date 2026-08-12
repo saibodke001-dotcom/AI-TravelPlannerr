@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile-container fade-in-up">
+    <div class="profile-card glass-panel">
+        <div class="profile-header text-center">
+            <div class="profile-avatar">👤</div>
+            <h2>{{ user['username'] }}</h2>
+            <p>{{ user['email'] }}</p>
+        </div>
+        <div class="profile-stats">
+            <div class="stat-box">
+                <h3>{{ trip_count }}</h3>
+                <p>Trips Planned</p>
+            </div>
+            <!-- More stats can be added here -->
+        </div>
+        <div class="profile-actions text-center mt-4">
+            <a href="{{ url_for('dashboard') }}" class="btn-primary">View My Trips</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

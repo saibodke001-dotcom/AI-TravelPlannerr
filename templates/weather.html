@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel text-center fade-in-up" style="max-width: 600px; margin: 50px auto;">
+    <h2>Weather Information</h2>
+    <p>Check the best time to visit your favorite destinations.</p>
+    <div style="font-size: 50px; margin: 20px 0;">🌤️</div>
+    <p class="text-muted">Currently, weather insights are included directly in your generated AI itineraries!</p>
+    <a href="{{ url_for('planner') }}" class="btn-primary">Generate an Itinerary</a>
+</div>
+{% endblock %}
