@@ -144,9 +144,14 @@ def planner():
         """
         
         try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
+            clean_key = api_key.strip().strip('"').strip("'")
+            url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent"
             payload = {"contents": [{"parts": [{"text": prompt}]}]}
-            resp = requests.post(url, headers={'Content-Type': 'application/json'}, json=payload)
+            headers = {
+                'Content-Type': 'application/json',
+                'x-goog-api-key': clean_key
+            }
+            resp = requests.post(url, headers=headers, json=payload)
             
             if not resp.ok:
                 raise Exception(f"API Error: {resp.text}")
