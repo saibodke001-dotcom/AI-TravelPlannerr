@@ -15,7 +15,7 @@ import json
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, g
 from dotenv import load_dotenv
-from google import genai
+import requests
 import markdown
 
 # For PDF Generation
@@ -33,7 +33,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "super_secret_default_key")
 # Gemini Configuration
 api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
 
-client = genai.Client(api_key=api_key)
+
 if not api_key:
     raise RuntimeError("GEMINI_API_KEY is not configured")
 
@@ -144,11 +144,14 @@ def planner():
         """
         
         try:
-            response = client.models.generate_content(
-                model='gemini-3.5-flash',
-                contents=prompt
-            )
-            itinerary_markdown = response.text
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key}"
+            payload = {"contents": [{"parts": [{"text": prompt}]}]}
+            resp = requests.post(url, headers={'Content-Type': 'application/json'}, json=payload)
+            
+            if not resp.ok:
+                raise Exception(f"API Error: {resp.text}")
+                
+            itinerary_markdown = resp.json()['candidates'][0]['content']['parts'][0]['text']
             
             # Save to database
             db = get_db()
